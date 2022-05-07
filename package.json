@@ -1,0 +1,16 @@
+{
+  "name": "tearoshi-news",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Findoss",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "slimbot": "^5.1.0"
+  }
+}
