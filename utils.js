@@ -33,5 +33,8 @@ export const objToStr = (obj) => {
 };
 
 export const getCommand = (str) => {
-  return str.replace("/", "").replace("@tearoshi_news_bot", "");
+  if (typeof str === "string") {
+    return str.replace("/", "").replace("@tearoshi_news_bot", "");
+  }
+  return "help";
 };
