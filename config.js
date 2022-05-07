@@ -1,4 +1,4 @@
-export const TG_TOKEN_BOT = "5205485761:AAE9EIDUvZEtHryqsr7a6zXUSrqlrmb6r9k";
+export const TG_TOKEN_BOT = process.env["TELEGRAM_BOT_TOKEN"];
 
 export const TEST_CONTENT = {
   text: "Да, тест [успешно пройден](https://ru.wikipedia.org/wiki/Тестирование_программного_обеспечения)",

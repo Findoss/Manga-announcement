@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Slimbot from "slimbot";
 import { store } from "./store.js";
 import { objToStr, diff, formatTitleManga, getCommand } from "./utils.js";
