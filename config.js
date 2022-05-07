@@ -1,5 +1,3 @@
-import { between } from "./utils.js";
-
 export const TG_TOKEN_BOT = process.env["TELEGRAM_BOT_TOKEN"];
 
 export const TEST_CONTENT = {
@@ -23,6 +21,6 @@ export const MANGA_LIST_BODY = {
 };
 
 export const TIMERS = {
-  intervalUpdateManga: between(3000, 5000),
+  intervalUpdateManga: Math.floor(Math.random() * (5000 - 3000) + 3000),
   intervalBroadcast: 2000,
 };
