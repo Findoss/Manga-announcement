@@ -1,3 +1,5 @@
+import { between } from "./utils.js";
+
 export const TG_TOKEN_BOT = process.env["TELEGRAM_BOT_TOKEN"];
 
 export const TEST_CONTENT = {
@@ -16,11 +18,11 @@ export const MANGA_LIST_BODY = {
   is_finish: -1,
   order: 3,
   page_num: 1,
-  page_size: 2,
+  page_size: 5,
   is_free: -1,
 };
 
 export const TIMERS = {
-  intervalUpdateManga: 5000,
+  intervalUpdateManga: between(3000, 5000),
   intervalBroadcast: 2000,
 };

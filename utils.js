@@ -35,3 +35,7 @@ export const objToStr = (obj) => {
 export const getCommand = (str) => {
   return str.replace("/", "").replace("@tearoshi_news_bot", "");
 };
+
+export const between = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
