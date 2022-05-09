@@ -2,7 +2,13 @@ import "dotenv/config";
 import Slimbot from "slimbot";
 import { objToStr, getCommand } from "./utils.js";
 
-import { TG_TOKEN_BOT, TEST_CONTENT, TIMERS, ADMIN_CHAT_ID } from "./config.js";
+import {
+  TG_TOKEN_BOT,
+  TEST_CONTENT,
+  TIMERS,
+  ADMIN_CHAT_ID,
+  ADMIN_COMMANDS,
+} from "./config.js";
 
 import { store } from "./store.js";
 import { sites } from "./sites.js";
@@ -125,14 +131,18 @@ const help = (msg) => {
   const { id } = chat;
 
   const helpText = `
-    Краткая справка по командам 
+    Справка по командам 
+    ***Общие команды***
       /help - справка
-      /start - запуск поиска анонсов
-      /pause - пауза поиска анонсов
-      /test - проверка работы бота
       /add - добавление канала в рассылку
       /remove - удаление канала из рассылки
+
+    ***Админские команды***
+      /test - проверка работы бота
+      /start - запуск поиска анонсов
+      /pause - пауза поиска анонсов
       /storage - состояние бота
+
     Создатель @findoss
   `;
 
@@ -152,7 +162,10 @@ const commands = {
 slimbot.on("message", (msg) => {
   const cmd = getCommand(msg.text);
 
-  console.log("cmd", cmd);
+  if (ADMIN_COMMANDS.includes(cmd) && msg.chat.id !== ADMIN_CHAT_ID) {
+    bot.sendMsg(msg.chat.id, "Нужны права админа, запростите у @Findoss");
+    return;
+  }
 
   if (commands.hasOwnProperty(cmd)) {
     commands[cmd](msg);
