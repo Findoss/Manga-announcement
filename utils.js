@@ -8,3 +8,16 @@ export const getCommand = (str) => {
   }
   return "help";
 };
+
+export const diff = (id, arr) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.id !== id) {
+      result.push(item);
+    } else {
+      break;
+    }
+  }
+  return result.reverse();
+};

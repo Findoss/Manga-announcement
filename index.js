@@ -1,6 +1,6 @@
 import "dotenv/config";
 import Slimbot from "slimbot";
-import { objToStr, getCommand } from "./utils.js";
+import { diff, objToStr, getCommand } from "./utils.js";
 
 import {
   TG_TOKEN_BOT,
@@ -11,7 +11,7 @@ import {
 } from "./config.js";
 
 import { store } from "./store.js";
-import { sites } from "./sites.js";
+import { sites } from "./sites/index.js";
 
 const slimbot = new Slimbot(TG_TOKEN_BOT);
 const bot = {
@@ -88,7 +88,7 @@ const start = () => {
     Object.entries(sites).map(async ([name, site]) => {
       try {
         const newData = await site.getManga();
-        const diffManga = site.diffManga(store.getLastId(name), newData);
+        const diffManga = diff(store.getLastId(name), newData);
 
         store.setLastUpdateTime(name, Date.now());
         store.save();

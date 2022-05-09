@@ -16,7 +16,7 @@ export const MANGA_BILIBILI_COM_LIST_BODY = {
 };
 
 export const formatTitleManga = (item) => {
-  return `___${item.season_id}___ | [${item.title}](${MANGA_BILIBILI_COM_DESC_URL}${item.id}) - ${item.release_time}`;
+  return `___${item.season_id}___ | [${item.title}](${MANGA_BILIBILI_COM_DESC_URL}${item.season_id}) - ${item.release_time}`;
 };
 
 export const transformListManga = (arr) => {
@@ -46,20 +46,6 @@ export const getManga = async () => {
     });
 };
 
-export const diffManga = (id, arr) => {
-  const result = [];
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (item.id !== id) {
-      result.push(item);
-    } else {
-      break;
-    }
-  }
-  return result.reverse();
-};
-
 export const manga_bilibili_com = {
   getManga,
-  diffManga,
 };
