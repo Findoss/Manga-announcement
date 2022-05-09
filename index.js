@@ -90,11 +90,12 @@ const start = () => {
         const newData = await site.getManga();
         const diffManga = site.diffManga(store.getLastId(name), newData);
 
+        store.setLastUpdateTime(name, Date.now());
+        store.save();
+
         if (diffManga.length > 0) {
           store.addDiff(diffManga);
           store.setLastId(name, diffManga[diffManga.length - 1].id);
-          store.setLastUpdateTime(name, Date.now());
-          store.save();
         }
       } catch (error) {
         bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
