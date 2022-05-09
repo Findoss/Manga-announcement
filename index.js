@@ -1,24 +1,30 @@
 import "dotenv/config";
 import Slimbot from "slimbot";
+import { objToStr, getCommand } from "./utils.js";
+
+import { TG_TOKEN_BOT, TEST_CONTENT, TIMERS, ADMIN_CHAT_ID } from "./config.js";
+
 import { store } from "./store.js";
-import { objToStr, diff, formatTitleManga, getCommand } from "./utils.js";
-
-import { getManga } from "./parse.js";
-
-import { TG_TOKEN_BOT, TEST_CONTENT, TIMERS } from "./config.js";
+import { sites } from "./sites.js";
 
 const slimbot = new Slimbot(TG_TOKEN_BOT);
 const bot = {
   sendMsg(id, text) {
-    slimbot.sendMessage(id, text, { parse_mode: "Markdown" });
+    slimbot.sendMessage(id, text, { parse_mode: "Markdown" }).catch((error) => {
+      throw new Error(error.message);
+    });
   },
   sendImg(id, img, text) {
-    slimbot.sendPhoto(id, img, { caption: text, parse_mode: "Markdown" });
+    slimbot
+      .sendPhoto(id, img, { caption: text, parse_mode: "Markdown" })
+      .catch((error) => {
+        throw new Error(error.message);
+      });
   },
-  brodcast({ img, text }) {
+  brodcast({ img, title }) {
     if (store.idChanals.length > 0) {
       store.idChanals.map((id) => {
-        this.sendImg(id, img, text);
+        this.sendImg(id, img, title);
       });
     }
   },
@@ -39,6 +45,7 @@ const add = (msg) => {
     bot.sendMsg(id, `Канал, \`${id}\` уже в списке`);
   } else {
     store.addChanal(id);
+    store.save();
     bot.sendMsg(id, `Канал, \`${id}\` добавлен в рассылку`);
   }
 };
@@ -48,6 +55,7 @@ const remove = (msg) => {
   const { id } = chat;
 
   store.removeChanal(id);
+  store.save();
 
   bot.sendMsg(id, `Канал, \`${id}\` удален из рассылки`);
 };
@@ -59,38 +67,48 @@ const storage = (msg) => {
   bot.sendMsg(id, objToStr(store.toString()));
 };
 
-const start = (msg) => {
-  const { chat } = msg;
-  const { id } = chat;
-
+const start = () => {
   if (store.timers.length > 0) {
     bot.sendMsg(
-      id,
+      ADMIN_CHAT_ID,
       `Поиск анонсов уже запущен, что бы остановить используйте команду /pause`
     );
     return;
   }
 
-  const idTimerUpdateManga = setInterval(async () => {
-    const newData = await getManga();
-    const diffManga = diff(store.idLastItem, newData);
+  bot.sendMsg(ADMIN_CHAT_ID, `start bot ${objToStr(store.toString())}`);
 
-    if (diffManga.length > 0) {
-      store.addDiff(diffManga);
-      store.updateLastId(diffManga[diffManga.length - 1].id);
-    }
+  const idTimerUpdateManga = setInterval(async () => {
+    Object.entries(sites).map(async ([name, site]) => {
+      try {
+        const newData = await site.getManga();
+        const diffManga = site.diffManga(store.getLastId(name), newData);
+
+        if (diffManga.length > 0) {
+          store.addDiff(diffManga);
+          store.setLastId(name, diffManga[diffManga.length - 1].id);
+          store.setLastUpdateTime(name, Date.now());
+          store.save();
+        }
+      } catch (error) {
+        bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
+      }
+    });
   }, TIMERS.intervalUpdateManga);
 
   const idTimerBroadcastManga = setInterval(async () => {
     if (store.diffList.length > 0) {
-      const manga = store.shiftDiff();
-      bot.brodcast({ img: manga.img, text: formatTitleManga(manga) });
+      try {
+        bot.brodcast(store.shiftDiff());
+      } catch (error) {
+        bot.sendMsg(ADMIN_CHAT_ID, `Error #002 ${error}`);
+      }
     }
   }, TIMERS.intervalBroadcast);
 
   store.addTimers(idTimerUpdateManga, idTimerBroadcastManga);
 
-  bot.sendMsg(id, `Поиск анонсов - запущен`);
+  bot.sendMsg(ADMIN_CHAT_ID, `Поиск анонсов - запущен`);
 };
 
 const pause = (msg) => {
@@ -144,5 +162,6 @@ slimbot.on("message", (msg) => {
 });
 
 slimbot.startPolling();
-console.log("start bot");
+start();
+
 // slimbot.stopPolling();
