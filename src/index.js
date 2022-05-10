@@ -2,6 +2,7 @@ import "dotenv/config";
 import axios from "axios";
 import Slimbot from "slimbot";
 import { diff, objToStr, getCommand } from "./utils.js";
+import { placeholderImage } from "./image.js";
 
 import {
   TG_TOKEN_BOT,
@@ -21,7 +22,7 @@ const bot = {
       throw new Error(error.message);
     });
   },
-  sendImg(id, img, text) {
+  sendImg(id, img = placeholderImage, text) {
     slimbot
       .sendPhoto(id, img, { caption: text, parse_mode: "Markdown" })
       .catch((error) => {
@@ -92,12 +93,13 @@ const start = () => {
         const diffManga = diff(store.getLastId(name), newData);
 
         store.setLastUpdateTime(name, Date.now());
-        store.save();
 
         if (diffManga.length > 0) {
           store.addDiff(diffManga);
           store.setLastId(name, diffManga[diffManga.length - 1].id);
         }
+
+        store.save();
       } catch (error) {
         if (axios.isAxiosError(error)) {
           return;
@@ -107,7 +109,8 @@ const start = () => {
           return;
         }
 
-        bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
+        console.error(error);
+        // bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
       }
     });
   }, TIMERS.intervalUpdateManga);

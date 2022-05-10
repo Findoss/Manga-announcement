@@ -14,7 +14,7 @@ export const diff = (id, arr) => {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
     if (item.id !== id) {
-      result.push(item);
+    result.push(item);
     } else {
       break;
     }
