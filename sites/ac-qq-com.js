@@ -1,14 +1,11 @@
 import axios from "axios";
 import jsdom from "jsdom";
 
-//https://ac.qq.com/Comic/all/finish/1/search/hot/page/1
-//https://ac.qq.com/Comic/comicInfo/id/651207
-
 const { JSDOM } = jsdom;
 
 export const MANGA_AC_QQ_COM_HOST = "https://ac.qq.com";
 
-export const MANGA_AC_QQ_COM_LIST_URL = `${MANGA_AC_QQ_COM_HOST}/Comic/all/finish/1/search/hot/page/1`;
+export const MANGA_AC_QQ_COM_LIST_URL = `${MANGA_AC_QQ_COM_HOST}/Comic/all/finish/1/search/time/page/1`;
 export const MANGA_AC_QQ_COM_DESC_URL = `${MANGA_AC_QQ_COM_HOST}/Comic/comicInfo/id/`;
 
 export const formatTitleManga = (item) => {
