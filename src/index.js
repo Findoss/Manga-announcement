@@ -1,4 +1,5 @@
 import "dotenv/config";
+import axios from "axios";
 import Slimbot from "slimbot";
 import { diff, objToStr, getCommand } from "./utils.js";
 
@@ -98,11 +99,11 @@ const start = () => {
           store.setLastId(name, diffManga[diffManga.length - 1].id);
         }
       } catch (error) {
-        if (error.code === "ECONNRESET") {
+        if (axios.isAxiosError(error)) {
           return;
         }
 
-        if (error.code === "ERR_BAD_RESPONSE") {
+        if (error.code === "ECONNRESET") {
           return;
         }
 
