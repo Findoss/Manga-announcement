@@ -11,7 +11,7 @@ import {
 } from "./config.js";
 
 import { store } from "./store.js";
-import { sites } from "./sites/index.js";
+import { sites } from "../sites/index.js";
 
 const slimbot = new Slimbot(TG_TOKEN_BOT);
 const bot = {
@@ -98,10 +98,14 @@ const start = () => {
           store.setLastId(name, diffManga[diffManga.length - 1].id);
         }
       } catch (error) {
-        console.log(error);
         if (error.code === "ECONNRESET") {
-          bot.sendMsg(ADMIN_CHAT_ID, `yes`);
+          return;
         }
+
+        if (error.code === "ERR_BAD_RESPONSE") {
+          return;
+        }
+
         bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
       }
     });

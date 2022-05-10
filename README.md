@@ -22,7 +22,7 @@
 
 ## Use
 
-`pm2 start index.js`  
+`npm start`  
 `pm2 reload 0`
 `pm2 stop 0`
 `pm2 logs 0 --lines 1000 > logs.txt`
