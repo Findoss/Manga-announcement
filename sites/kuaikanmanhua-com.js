@@ -28,14 +28,11 @@ export const getManga = async () => {
       },
     })
     .then((response) => {
-      const rawText = JSON.stringify(response.data, null, 2);
+      const rawText = response.data;
+
       let rawJS = rawText
         .match(/<script>window\.__NUXT__=(.*)\;<\/script>/i)
         .pop();
-
-      rawJS = `${rawJS};`;
-      rawJS = rawJS.replaceAll('\\"', '"');
-      rawJS = rawJS.replaceAll('\\"', '"');
 
       const js = eval(rawJS);
       const data = js.data[0].dataList;

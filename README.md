@@ -1,26 +1,35 @@
 # Manga-announcement
 
-`ls -la`
-
-`apt install curl`
+## Install deps
 
 `sudo apt update`  
 `sudo apt install git`  
-`git --version`  
-`git clone https://github.com/Findoss/Manga-announcement.git`
+`git --version`
 
-`touch .env`  
-`nano .env` - добавление токена бота
-
-`sudo apt update`  
-`sudo apt install nodejs`  
-`sudo apt install npm`  
-`nodejs -v`
-
+`apt install curl`  
 `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
 
-`npm install forever -g`  
+`nvm install last`
+
+`git clone https://github.com/Findoss/Manga-announcement.git`  
 `npm ci`  
-`forever start index.js`  
-`forever restart index.js`  
-`forever logs index.js`
+`npm install pm2 -g`
+
+## Env
+
+`touch .env`  
+`nano .env`
+
+## Use
+
+`pm2 start index.js`  
+`pm2 list`  
+`pm2 monit`  
+`pm2 logs`
+
+## Backup
+
+files
+
+`db.json`  
+`.env`

@@ -10,6 +10,6 @@ export const TEST_CONTENT = {
 };
 
 export const TIMERS = {
-  intervalUpdateManga: Math.floor(Math.random() * (5000 - 3000) + 3000),
-  intervalBroadcast: 2000,
+  intervalUpdateManga: Math.floor(Math.random() * (7000 - 4000) + 4000),
+  intervalBroadcast: 3000,
 };

@@ -98,6 +98,7 @@ const start = () => {
           store.setLastId(name, diffManga[diffManga.length - 1].id);
         }
       } catch (error) {
+        console.log(error);
         bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
       }
     });
