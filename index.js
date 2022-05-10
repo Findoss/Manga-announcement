@@ -99,6 +99,9 @@ const start = () => {
         }
       } catch (error) {
         console.log(error);
+        if (error.code === "ECONNRESET") {
+          bot.sendMsg(ADMIN_CHAT_ID, `yes`);
+        }
         bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
       }
     });
