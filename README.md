@@ -23,10 +23,12 @@
 ## Use
 
 `pm2 start index.js`  
-`pm2 reload index.js`
-`pm2 logs index.js`
+`pm2 reload 0`
+`pm2 stop 0`
+`pm2 logs 0`
 `pm2 list`  
 `pm2 monit`
+`pm2 report`
 
 ## Backup
 

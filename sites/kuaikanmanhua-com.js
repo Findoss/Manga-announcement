@@ -19,6 +19,15 @@ export const transformListManga = (arr) => {
   });
 };
 
+export const parseListManga = (rawText) => {
+  let rawJS = rawText.match(/<script>window\.__NUXT__=(.*)\;<\/script>/i).pop();
+
+  const js = eval(rawJS);
+  const list = js.data[0].dataList;
+
+  return list;
+};
+
 export const getManga = async () => {
   return axios
     .get(MANGA_KUAIKANMANHUA_LIST_URL, {
@@ -27,17 +36,15 @@ export const getManga = async () => {
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
       },
     })
-    .then((response) => {
-      const rawText = response.data;
-
-      let rawJS = rawText
-        .match(/<script>window\.__NUXT__=(.*)\;<\/script>/i)
-        .pop();
-
-      const js = eval(rawJS);
-      const data = js.data[0].dataList;
-
-      return data;
+    .then(() => {
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(`${MANGA_BILIBILI_COM_HOST} error`);
+      }
+    })
+    .then((data) => {
+      return parseListManga(data);
     })
     .then((data) => {
       return transformListManga(data);
