@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const MANGA_KUAIKANMANHUA_HOST = "https://www.kuaikanmanhua.com";
 
-export const MANGA_KUAIKANMANHUA_LIST_URL = `${MANGA_KUAIKANMANHUA_HOST}/tag/0?state=2&sort=3&page=1`;
+export const MANGA_KUAIKANMANHUA_LIST_URL = `${MANGA_KUAIKANMANHUA_HOST}/tag/0?state=1&sort=3&page=1`;
 export const MANGA_KUAIKANMANHUA_DESC_URL = `${MANGA_KUAIKANMANHUA_HOST}/web/topic/`;
 
 export const formatTitleManga = (item) => {
