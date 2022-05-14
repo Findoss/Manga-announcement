@@ -25,15 +25,29 @@ export const diff = (id, arr) => {
 };
 
 export const checkServer = () => {
-  exec("pm2 list", (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    return stdout;
+  return new Promise((res, rej) => {
+    exec("pm2 jlist", (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        rej();
+      }
+
+      const obj = JSON.parse(stdout);
+
+      const formatted = obj.map((v) => {
+        return {
+          pid: v.pid,
+          name: v.name,
+          status: v.status,
+          pm_uptime: v.pm2_env.pm_uptime,
+          restart_time: v.pm2_env.restart_time,
+          unstable_restarts: v.pm2_env.unstable_restarts,
+          version: v.version,
+          monit: v.monit,
+        };
+      });
+
+      res(formatted);
+    });
   });
 };

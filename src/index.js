@@ -19,6 +19,11 @@ const slimbot = new Slimbot(TG_TOKEN_BOT);
 const bot = {
   sendMsg(id, text) {
     slimbot.sendMessage(id, text, { parse_mode: "Markdown" }).catch((error) => {
+      if (error.error_code === 400) {
+        console.log(error.description);
+        return;
+      }
+
       throw new Error(error.message);
     });
   },
@@ -68,13 +73,16 @@ const remove = (msg) => {
   bot.sendMsg(id, `Канал, \`${id}\` удален из рассылки`);
 };
 
-const status = (msg) => {
+const status = async (msg) => {
   const { chat } = msg;
   const { id } = chat;
 
-  const status = checkServer();
-  console.log(status);
-  bot.sendMsg(id, objToStr(store.toString()));
+  try {
+    const status = await checkServer();
+    bot.sendMsg(id, objToStr({ store: store.toString(), status: status }));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const start = () => {
@@ -85,8 +93,6 @@ const start = () => {
     );
     return;
   }
-
-  bot.sendMsg(ADMIN_CHAT_ID, `start bot ${objToStr(store.toString())}`);
 
   const idTimerUpdateManga = setInterval(async () => {
     Object.entries(sites).map(async ([name, site]) => {

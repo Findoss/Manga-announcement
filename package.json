@@ -1,11 +1,11 @@
 {
   "name": "manga-announcement",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "pm2 start src/index.js"
+    "start": "pm2 start pm2.config.cjs"
   },
   "author": "Findoss",
   "license": "MIT",

@@ -25,8 +25,9 @@
 `pm2 start pm2.config.js`  
 `pm2 reload app`
 `pm2 stop app`
+`pm2 show app`  
 `pm2 logs app --lines 1000 > logs.txt`
-`pm2 list`  
+`pm2 status`  
 `pm2 monit`
 `pm2 report`
 
