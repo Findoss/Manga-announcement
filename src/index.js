@@ -1,7 +1,7 @@
 import "dotenv/config";
 import axios from "axios";
 import Slimbot from "slimbot";
-import { diff, objToStr, getCommand } from "./utils.js";
+import { diff, objToStr, getCommand, checkServer } from "./utils.js";
 import { placeholderImage } from "./image.js";
 
 import {
@@ -68,10 +68,12 @@ const remove = (msg) => {
   bot.sendMsg(id, `Канал, \`${id}\` удален из рассылки`);
 };
 
-const storage = (msg) => {
+const status = (msg) => {
   const { chat } = msg;
   const { id } = chat;
 
+  const status = checkServer();
+  console.log(status);
   bot.sendMsg(id, objToStr(store.toString()));
 };
 
@@ -154,7 +156,7 @@ const help = (msg) => {
       /test - проверка работы бота
       /start - запуск поиска анонсов
       /pause - пауза поиска анонсов
-      /storage - состояние бота
+      /status - состояние бота
 
     Создатель @findoss
   `;
@@ -166,7 +168,7 @@ const commands = {
   test,
   add,
   help,
-  storage,
+  status,
   remove,
   start,
   pause,

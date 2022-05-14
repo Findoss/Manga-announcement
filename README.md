@@ -22,10 +22,10 @@
 
 ## Use
 
-`npm start`  
-`pm2 reload 0`
-`pm2 stop 0`
-`pm2 logs 0 --lines 1000 > logs.txt`
+`pm2 start pm2.config.js`  
+`pm2 reload app`
+`pm2 stop app`
+`pm2 logs app --lines 1000 > logs.txt`
 `pm2 list`  
 `pm2 monit`
 `pm2 report`
