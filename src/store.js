@@ -3,6 +3,8 @@ const db = new JSONdb("./db.json", {
   asyncWrite: true,
 });
 
+export const LIMIT_OLD_POSTS = 100;
+
 export const store = {
   sites: {},
   idChanals: [],
@@ -13,7 +15,7 @@ export const store = {
   initSite(name) {
     if (this.sites[name] === undefined) {
       this.sites[name] = {
-        lastId: 0,
+        posts: [],
         lastTime: 0,
       };
     }
@@ -27,9 +29,14 @@ export const store = {
     return this.diffList.shift();
   },
 
-  setLastId(name, id) {
+  addPosts(name, arr) {
     this.initSite(name);
-    this.sites[name].lastId = id;
+
+    while (this.sites[name].posts.length > LIMIT_OLD_POSTS) {
+      this.sites[name].posts.shift();
+    }
+
+    this.sites[name].posts.push(...arr);
   },
 
   setLastUpdateTime(name, time) {
@@ -37,8 +44,8 @@ export const store = {
     this.sites[name].lastTime = time;
   },
 
-  getLastId(name) {
-    return this.sites[name]?.lastId;
+  getPosts(name) {
+    return this.sites[name]?.posts;
   },
 
   addChanal(id) {
@@ -96,7 +103,7 @@ export const store = {
 
         return {
           [key]: {
-            lastId: site?.lastId,
+            posts: site?.posts.at(-1),
             lastTime: date,
           },
         };

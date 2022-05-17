@@ -11,17 +11,12 @@ export const getCommand = (str) => {
   return "help";
 };
 
-export const diff = (id, arr) => {
-  const result = [];
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (item.id !== id) {
-      result.push(item);
-    } else {
-      break;
-    }
-  }
-  return result.reverse();
+export const diff = (oldArr, newArr) => {
+  return newArr
+    .filter((newItem) => {
+      return !oldArr.includes(newItem.id);
+    })
+    .reverse();
 };
 
 export const checkServer = () => {

@@ -11,7 +11,7 @@ export const MANGA_BILIBILI_COM_LIST_BODY = {
   is_finish: -1,
   order: 3,
   page_num: 1,
-  page_size: 5,
+  page_size: 30,
   is_free: -1,
 };
 

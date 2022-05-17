@@ -98,13 +98,14 @@ const start = () => {
     Object.entries(sites).map(async ([name, site]) => {
       try {
         const newData = await site.getManga();
-        const diffManga = diff(store.getLastId(name), newData);
+        const diffManga = diff(store.getPosts(name), newData);
+        const diffMangaIds = diffManga.map((v) => v.id);
 
         store.setLastUpdateTime(name, Date.now());
 
         if (diffManga.length > 0) {
           store.addDiff(diffManga);
-          store.setLastId(name, diffManga[diffManga.length - 1].id);
+          store.addPosts(name, diffMangaIds);
         }
 
         store.save();
@@ -118,7 +119,6 @@ const start = () => {
         }
 
         console.error(error);
-        // bot.sendMsg(ADMIN_CHAT_ID, `Error #001 ${error}`);
       }
     });
   }, TIMERS.intervalUpdateManga);
