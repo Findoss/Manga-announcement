@@ -181,7 +181,7 @@ const commands = {
 };
 
 slimbot.on("message", (msg) => {
-  const cmd = getCommand(msg.text);
+  const [cmd, data] = getCommand(msg.text);
 
   if (ADMIN_COMMANDS.includes(cmd) && msg.chat.id !== ADMIN_CHAT_ID) {
     bot.sendMsg(msg.chat.id, "Нужны права админа, запростите у @Findoss");
@@ -189,7 +189,7 @@ slimbot.on("message", (msg) => {
   }
 
   if (commands.hasOwnProperty(cmd)) {
-    commands[cmd](msg);
+    commands[cmd](msg, data);
   } else {
     commands.help(msg);
   }
