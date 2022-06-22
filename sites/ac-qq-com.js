@@ -9,7 +9,7 @@ export const MANGA_AC_QQ_COM_LIST_URL = `${MANGA_AC_QQ_COM_HOST}/Comic/all/finis
 export const MANGA_AC_QQ_COM_DESC_URL = `${MANGA_AC_QQ_COM_HOST}/Comic/comicInfo/id/`;
 
 export const formatTitleManga = (item) => {
-  return `[${item.title}](${MANGA_AC_QQ_COM_DESC_URL}${item.id})`;
+  return `___${item.id}___ | [${item.title}](${MANGA_AC_QQ_COM_DESC_URL}${item.id})`;
 };
 
 export const parseListManga = (rawText) => {
