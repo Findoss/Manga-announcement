@@ -13,6 +13,7 @@ export const formatTitleManga = (item) => {
 export const transformListManga = (arr) => {
   return arr.map((item) => {
     return {
+      site: "remanga_org",
       id: item.id,
       title: formatTitleManga(item),
       // img: `${REMANGA_IMG_URL}/${item.cover_high}`,

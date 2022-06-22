@@ -22,6 +22,7 @@ export const formatTitleManga = (item) => {
 export const transformListManga = (arr) => {
   return arr.map((item) => {
     return {
+      site: "manga_bilibili_com",
       id: item.season_id,
       title: formatTitleManga(item),
       img: item.vertical_cover,

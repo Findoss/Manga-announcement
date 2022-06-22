@@ -12,6 +12,7 @@ export const formatTitleManga = (item) => {
 export const transformListManga = (arr) => {
   return arr.map((item, i) => {
     return {
+      site: "manga_kuaikanmanhua",
       id: item.id,
       title: formatTitleManga(item),
       img: decodeURIComponent(JSON.parse(`"${item.vertical_image_url}"`)),

@@ -48,16 +48,28 @@ export const store = {
     return this.sites[name]?.posts;
   },
 
-  addChanal(id) {
-    this.idChanals.push(id);
+  addSite(id, site) {
+    const chanel = this.idChanals.find((v) => v.id === id);
+    if (chanel) {
+      chanel.sites.push(site);
+    } else {
+      this.idChanals.push({ id, sites: [site] });
+    }
   },
 
   hasChanal(id) {
-    return this.idChanals.includes(id);
+    return this.idChanals.findIndex((v) => v.id === id) > 0;
   },
 
-  removeChanal(id) {
-    this.idChanals = this.idChanals.filter((v) => v !== id);
+  removeSite(id, site) {
+    const chanel = this.idChanals.find((v) => v.id === id);
+    if (chanel) {
+      chanel.sites = chanel.sites.filter((v) => v !== site);
+
+      if (chanel.sites.length === 0) {
+        this.idChanals = this.idChanals.filter((v) => v.id !== id);
+      }
+    }
   },
 
   clearTimers() {

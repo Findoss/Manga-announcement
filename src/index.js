@@ -34,10 +34,12 @@ const bot = {
         throw new Error(error.message);
       });
   },
-  brodcast({ img, title }) {
+  brodcast({ img, title, site }) {
     if (store.idChanals.length > 0) {
-      store.idChanals.map((id) => {
-        this.sendImg(id, img, title);
+      store.idChanals.map(({ id, sites }) => {
+        if (sites.includes(site)) {
+          this.sendImg(id, img, title);
+        }
       });
     }
   },
@@ -50,27 +52,22 @@ const test = (msg) => {
   bot.sendImg(id, TEST_CONTENT.img, `${TEST_CONTENT.text}\n${objToStr(msg)}`);
 };
 
-const add = (msg) => {
+const add = (msg, site) => {
   const { chat } = msg;
   const { id } = chat;
 
-  if (store.hasChanal(id)) {
-    bot.sendMsg(id, `Канал, \`${id}\` уже в списке`);
-  } else {
-    store.addChanal(id);
-    store.save();
-    bot.sendMsg(id, `Канал, \`${id}\` добавлен в рассылку`);
-  }
+  store.addSite(id, site);
+  store.save();
+  bot.sendMsg(id, `Сайт, \`${site}\` добавлен в рассылку`);
 };
 
-const remove = (msg) => {
+const remove = (msg, site) => {
   const { chat } = msg;
   const { id } = chat;
 
-  store.removeChanal(id);
+  store.removeSite(id, site);
   store.save();
-
-  bot.sendMsg(id, `Канал, \`${id}\` удален из рассылки`);
+  bot.sendMsg(id, `Сайт, \`${site}\` удален из рассылки`);
 };
 
 const status = async (msg) => {

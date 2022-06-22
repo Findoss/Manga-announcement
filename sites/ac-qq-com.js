@@ -42,6 +42,7 @@ export const parseListManga = (rawText) => {
 export const transformListManga = (arr) => {
   return arr.map((item) => {
     return {
+      site: "manga_ac_qq_com",
       id: item.id,
       title: formatTitleManga(item),
       img: item.img,
