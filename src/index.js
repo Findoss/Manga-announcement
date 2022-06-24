@@ -28,11 +28,15 @@ const bot = {
     });
   },
   sendImg(id, img = placeholderImage, text) {
-    slimbot
-      .sendPhoto(id, img, { caption: text, parse_mode: "Markdown" })
-      .catch((error) => {
-        throw new Error(error.message);
-      });
+    if (img === null) {
+      this.sendMsg(id, text);
+    } else {
+      slimbot
+        .sendPhoto(id, img, { caption: text, parse_mode: "Markdown" })
+        .catch((error) => {
+          throw new Error(error.message);
+        });
+    }
   },
   brodcast({ img, title, site }) {
     if (store.idChanals.length > 0) {

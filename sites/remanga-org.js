@@ -16,6 +16,7 @@ export const transformListManga = (arr) => {
       site: "remanga_org",
       id: item.id,
       title: formatTitleManga(item),
+      img: null,
       // img: `${REMANGA_IMG_URL}/${item.cover_high}`,
     };
   });
