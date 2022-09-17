@@ -1,5 +1,13 @@
 # Manga-announcement
 
+Бот для отмлежитвания анонсов китайской манги с сайтов
+
+- ac-qq-com.js
+- kuaikanmanhua-com.js
+- manga-bilibili-com.js
+- remanga-org.js
+
+
 ## Install deps
 
 `sudo apt update`  
